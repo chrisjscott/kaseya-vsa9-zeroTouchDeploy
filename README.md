@@ -2,7 +2,7 @@
 
 ### Overview
 
-I worked in an environment of ~200 Windows systems where we were frequently onboarding new users. Not being a fully-AD environment, I leveraged the existing [Kaseya VSA](https://www.kaseya.com/products/vsa/) RMM system to create, as much as possible, a "zero-touch deployment" environment in order to minimize this repetitive task.
+I worked in an environment of ~200 Windows systems where we were frequently onboarding new users. Not being a fully-AD environment, I leveraged the existing [Kaseya VSA](https://www.kaseya.com/products/vsa/) RMM system to create, as much as possible, a "zero-touch deployment" environment in order to minimize this repetitive, error-prone task.
 
 Sidenote: This environment relied on Google Workspace for overall IAM needs and, as a result, GWsp became the focal point of overall user account management and SSO functionality.
 
