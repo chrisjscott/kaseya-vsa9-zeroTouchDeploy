@@ -6,7 +6,7 @@ I worked in an environment of ~200 Windows systems where we were frequently onbo
 
 Sidenotes:
 - This environment relied on Google Workspace for overall IAM needs and, as a result, GWsp became the focal point of overall user account management and SSO functionality.
-- The org's name was 'SQZ' and has soince gone out of business, so any live, in-code references are non-fucntioning.
+- The org's name was 'SQZ' and has since gone out of business, so any live, in-code references are non-fucntioning.
 
 ### Planning and Preparation
 
@@ -27,7 +27,7 @@ Each of these two master procedures prompt the IT professional running them to I
 ### Actual Process
 
 1. User accounts are created in Google Workspace (using a default password) and Egnyte
-2. New (or reset) Windows computer is plugged via Ethernet and booted up.
+2. New (or reset) Windows computer is plugged via Ethernet and booted up
 3. System is named according to defined spec and initial "admin" account is created using "IT eyes-only" password
 4. Once at the desktop, all Windows OS and vendor-specific updates (including any applicable BIOS updates) are applied
 5. The appropriate VSA enrollment installer is executed to enroll the system to VSA
