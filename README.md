@@ -70,4 +70,4 @@ Cons:
 
 _Procedure names beginning with an asterisk ('*') indicate procedures that were not yet completed/didn't pass testing..._
 
-![Image]([https://raw.githubusercontent.com/chrisjscott/kaseya-vsa9-zeroTouchDeploy/main/agentProcedures-myProcedures.png](https://raw.githubusercontent.com/chrisjscott/kaseya-vsa9-zeroTouchDeploy/main/agentProcedures-myProcedures.png?token=GHSAT0AAAAAACSCTMRIOYUP4AW7K4LNX3O4ZSVAGAA))
+![Image]([Agent Procedures](https://raw.githubusercontent.com/chrisjscott/kaseya-vsa9-zeroTouchDeploy/main/agentProcedures-myProcedures.png?token=GHSAT0AAAAAACSCTMRIOYUP4AW7K4LNX3O4ZSVAGAA))
