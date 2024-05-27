@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="MS Office 365 (uninstall)" treePres="3" id="1678587733" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="https://www.reddit.com/r/sysadmin/comments/jjtpnp/comment/gaf1u1o/?utm_source=share&amp;utm_medium=web2x&amp;context=3" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="OfficeDeploymentTool.exe" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="mkdir #secureVSAdir#\ODT" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement description="can't use getFile to DL ODT from https://www.microsoft.com/en-us/download/details.aspx?id=49117 becuase the link breaks when the app is updated" name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\ODT\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\O365\officedeploymenttool_16327-20214.exe" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+      <Statement name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\ODT\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="/quiet /extract:#secureVSAdir#\ODT" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\ODT\O365-uninstall.xml" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\O365\O365-uninstall.xml" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+      <Statement name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\ODT\setup.exe" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="/configure #secureVSAdir#\ODT\O365-uninstall.xml" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement description="below line replaced shell command detailed in screensot on my Mac Mini desktop" name="Delete Directory" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\ODT" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="true" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

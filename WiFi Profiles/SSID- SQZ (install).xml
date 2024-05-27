@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="SSID: SQZ (install)" treePres="3" id="1655897806" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.WiFi Profiles">
+    <Body description="">
+      <Statement description="From https://www.community.connectit.com/automation-exchange/discussion/38824/it-toolkit-install-wifi-profile&#xD;&#xA;SSID-specific profiles are uploaded to Shared files/Wi-Fi Profiles" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="SQZ" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="ssid" />
+      </Statement>
+      <Statement name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#ssid#.xml" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\Wi-Fi Profiles\#ssid#.xml" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+      <Statement name="Execute Shell Command - Get Results to Variable" continueOnFail="false" osType="Windows">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="netsh wlan add profile filename=&quot;#secureVSAdir#\#ssid#.xml&quot; user=all" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="False" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="System" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#ssid#.xml" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

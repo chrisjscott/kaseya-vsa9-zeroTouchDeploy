@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="remove MS Edge from desktop (%UserProfile%)" treePres="3" id="672143915" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement description="MS Edge appears on a user's desktop whether or not it had been deleted from %Public\Desktop prior to account creation.&#xD;&#xA;The difference is, if it exists in %Public%\Desktop at account creation then the user can't delete their own icon.&#xD;&#xA;If the %Public%\Desktop icon is deleted prior to account creation then the icon still shows up on new account's desktop&#xD;&#xA;but it can be deleted by the user." name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="del %UserProfile%\Desktop\&quot;Microsoft Edge.lnk&quot;" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

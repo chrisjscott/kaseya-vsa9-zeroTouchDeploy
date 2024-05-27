@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="GraphPad Prism (install)" treePres="3" id="1137011653" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="Prompt" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Enter 'yes' to notify the client once procedure completes:" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="notifyUser" />
+      </Statement>
+      <Statement description=".&#xD;&#xA;Installs GraphPad Prism v9 as per these instructions: https://www.graphpad.com/myaccount/subscription/?subscriptionID=442167" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="InstallPrism9.msi" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://cdn.graphpad.com/downloads/prism/9/InstallPrism9.msi" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="Install MSI" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="True" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="True" />
+      </Statement>
+      <Statement description="Can't seem to get %ProgramFiles% to work as a destination path" name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="C:\Program Files\GraphPad\Prism 9\prism-config.xml" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\prism-config.xml" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+      </Statement>
+      <If description=".">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#notifyUser#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="Equals" />
+          <Parameter xsi:type="StringParameter" name="Value" value="yes" />
+        </Condition>
+        <Then>
+          <Statement description="setting #global:universal1# for use in &quot;send notification&quot; procedure" name="Get Variable - Universal - Create" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="Parameter1" value="GraphPad Prism installed" />
+            <Parameter xsi:type="StringParameter" name="Parameter2" value="" />
+            <Parameter xsi:type="StringParameter" name="Parameter3" value="" />
+          </Statement>
+          <Statement description="select either &quot;display now&quot; or &quot;flash icon&quot; procedure" name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1715461613" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="send notification (display now)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+        </Then>
+      </If>
+    </Body>
+  </Procedure>
+</ScExport>

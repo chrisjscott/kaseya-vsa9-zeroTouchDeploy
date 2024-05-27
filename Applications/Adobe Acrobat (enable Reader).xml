@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="Adobe Acrobat (enable Reader)" treePres="3" id="310620281" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="Enables 'Reader' mode in a previously-installed copy od thew '64-bit unified' version of Acrobat&#xD;&#xA;(only necessary if the user doesn't have an Acrobat pro license assigned to them)&#xD;&#xA;https://helpx.adobe.com/enterprise/kb/acrobat-64-bit-for-enterprises.html" name="SetRegistryValue" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown\bIsSCReducedModeEnforcedEx" />
+        <Parameter xsi:type="StringParameter" name="Value" value="1" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="Integer" />
+      </Statement>
+      <Statement name="SetRegistryValue" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown\cIPM\bDontShowMsgWhenViewingDoc" />
+        <Parameter xsi:type="StringParameter" name="Value" value="0" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="Integer" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

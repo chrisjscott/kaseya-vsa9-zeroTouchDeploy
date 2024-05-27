@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="PaperCut Print Deploy (install)" treePres="3" id="999399483" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="Downloads Print Deploy from SQZPrint01 (10.50.1.15) &amp; installs it.">
+      <Statement description="Print Deploy download &amp; Google-based authorization will only work if the client has active access to SQZ-Print01&#xD;&#xA;PowerShell command used to acquire client's external IP address." name="Execute Powershell" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="(Invoke-WebRequest -URI http://myip.dnsomatic.com -UseBasicParsing).Content" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="True" />
+      </Statement>
+      <If description="Don't forget: this relies on the SQZ office's external IP to remain 50.231.60.66; if that changes then this will never run">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#global:psresult#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="Equals" />
+          <Parameter xsi:type="StringParameter" name="Value" value="50.231.60.66" />
+        </Condition>
+        <Then>
+          <Statement name="GetVariable" continueOnFail="false">
+            <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+            <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+            <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+          </Statement>
+          <Statement name="GetVariable" continueOnFail="false">
+            <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+            <Parameter xsi:type="StringParameter" name="SourceContent" value="pc-print-deploy-client[10.50.1.15].msi" />
+            <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+          </Statement>
+          <Statement name="GetURL" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="URL" value="http://10.50.1.15:9191/print-deploy/client/windows" />
+            <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#" />
+            <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+          </Statement>
+          <Statement name="Install MSI" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\#fileName#" />
+            <Parameter xsi:type="StringParameter" name="Parameter2" value="True" />
+            <Parameter xsi:type="StringParameter" name="Parameter3" value="True" />
+          </Statement>
+          <Statement name="DeleteFile" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+          </Statement>
+        </Then>
+      </If>
+    </Body>
+  </Procedure>
+</ScExport>

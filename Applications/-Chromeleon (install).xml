@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="*Chromeleon (install)" treePres="3" id="1270927255" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="DL license file to local system - open/mount ISO - launch install.exe (silent mode)" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="Prompt" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Enter 'yes' to notify the client once procedure completes:" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="notifyUser" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Chromeleon732.iso" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement description="https://knowledge1.thermofisher.com/Software_and_Downloads/Chromatography_and_Mass_Spectrometry_Software/Chromeleon/Chromeleon_7_Software%2C_Drivers_and_Release_Notes/Chromeleon_7.3.2_Software_and_Documents" name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://tmo-cmd-static-secure.s3.amazonaws.com/Chromeleon-Full-7.3.0.60919-5efd55c28726aa174740e3ad3b435409b51aa6a1.en-US.Release.CM7.Setup.iso?AWSAccessKeyId=AKIAIC6CITLWDBD2IURQ&amp;Expires=1688140747&amp;Signature=IKPmV54YaG%2BnuRgfhzq3%2BkyWJL4%3D" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

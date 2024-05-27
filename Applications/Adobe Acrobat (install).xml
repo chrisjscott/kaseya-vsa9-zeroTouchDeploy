@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="Adobe Acrobat (install)" treePres="3" id="1350317122" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="Downloads 64-bit unified installer from https://helpx.adobe.com/acrobat/kb/acrobat-dc-downloads.html&#xD;&#xA;unified = runs as Reader if unlicensed, runs as Pro if signed in &amp; license is assigned via Adobe Admin Console" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Acrobat_DC_Web_x64_WWMUI" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://trials.adobe.com/AdobeProducts/APRO/Acrobat_HelpX/win32/Acrobat_DC_Web_x64_WWMUI.zip" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#.zip" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="Unzip file" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\#fileName#.zip" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="False" />
+      </Statement>
+      <Statement description="switch definitions found here: https://www.adobe.com/devnet-docs/acrobatetk/tools/DesktopDeployment/cmdline.html#msi-switches" name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="&quot;#secureVSAdir#\#fileName#\Adobe Acrobat\setup.exe&quot;" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="/sAll /rs /msi EULA_ACCEPT=YES" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#.zip" />
+      </Statement>
+      <Statement name="Delete Directory" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="true" />
+      </Statement>
+      <Statement description="This &quot;unified&quot; installer is able to run in &quot;Reader&quot; mode but only after you add a few registry keys (#unbelievablyStupid)&#xD;&#xA;If you don't to this then, when the user tries to log in using credentials that don't have a 'Pro' license assigned, the app forcibly quits. &#xD;&#xA;https://helpx.adobe.com/enterprise/kb/acrobat-64-bit-for-enterprises.html" name="SetRegistryValue" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown\bIsSCReducedModeEnforcedEx" />
+        <Parameter xsi:type="StringParameter" name="Value" value="1" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="Integer" />
+      </Statement>
+      <Statement name="SetRegistryValue" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown\cIPM\bDontShowMsgWhenViewingDoc" />
+        <Parameter xsi:type="StringParameter" name="Value" value="0" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="Integer" />
+      </Statement>
+      <Statement description="This app is a universal install; resulting icon on user's desktop can't be deleted w/o admin credentials." name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="del %Public%\Desktop\&quot;Adobe Acrobat.lnk&quot;" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

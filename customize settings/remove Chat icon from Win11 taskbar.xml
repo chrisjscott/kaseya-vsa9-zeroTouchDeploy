@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="remove Chat icon from Win11 taskbar" treePres="3" id="93307277" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement description="https://www.technewstoday.com/remove-chat-from-taskbar-windows-11/" name="SetRegistryValue64" continueOnFail="false" osType="11">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarMn" />
+        <Parameter xsi:type="StringParameter" name="Value" value="0" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="Integer" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="FlowJo (install)" treePres="3" id="48952299" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="Currently installing v 10.9 (https://www.flowjo.com/solutions/flowjo/downloads).&#xD;&#xA;requires invitation via FlowJo portal (https://cloud.flowjo.com/admin)&#xD;&#xA;.&#xD;&#xA;Note that app installation doesn't create an alias on the user's desktop OR in Windows menu; must be manually created from %ProgramFiles%\FlowJo 10.x.x\FlowJo_10.x.x.exe" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="Prompt" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Enter 'yes' to notify user once procedure completes:" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="notifyUser" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="FlowJo-Win64.exe" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://fjinstallers.s3.amazonaws.com/FlowJo/FlowJo-Win64-10.9.0.exe" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement description="Need to add firewall rules before installation in order to avoid firewall prompt (which will break procedure).&#xD;&#xA;NOTE THAT, IF WE BEGIN INSTALLING A NEW VERSION OF FLOWJO THAT THE PATH IN THESE RULES WILL REQUIRE UPDATING." name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="netsh advfirewall firewall add rule name=&quot;Zulu Platform x64 Architecture&quot; dir=in protocol=TCP action=allow profile=Public program=&quot;C:\program files\flowjo 10.9.0\jre\bin\javaw.exe&quot; enable=yes" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="netsh advfirewall firewall add rule name=&quot;Zulu Platform x64 Architecture&quot; dir=in protocol=UDP action=allow profile=Public program=&quot;C:\program files\flowjo 10.9.0\jre\bin\javaw.exe&quot; enable=yes" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement description="silent flag as per https://docs.flowjo.com/flowjo/installation/" name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="-i silent" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+      </Statement>
+      <If description=".">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#notifyUser#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="Equals" />
+          <Parameter xsi:type="StringParameter" name="Value" value="yes" />
+        </Condition>
+        <Then>
+          <Statement name="Get Variable - Universal - Create" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="Parameter1" value="FlowJo was successfully installed" />
+            <Parameter xsi:type="StringParameter" name="Parameter2" value="" />
+            <Parameter xsi:type="StringParameter" name="Parameter3" value="" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1715461613" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="send notification (display now)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+        </Then>
+      </If>
+    </Body>
+  </Procedure>
+</ScExport>

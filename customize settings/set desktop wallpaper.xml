@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="set desktop wallpaper" treePres="3" id="1885123920" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="Uploads the default SQZ desktop wallpaper and sets it as the current wallpaper.">
+      <Statement description="https://www.community.connectit.com/automation-exchange/discussion/27824/set-desktop-background" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="%Public%\Pictures" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="sharedPicDir" />
+      </Statement>
+      <Statement name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\Set-DesktopWallpaper.ps1" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\Wallpaper\Set-DesktopWallpaper.ps1" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+      <Statement description="SQZ wallpaper file should already be in C:\Users\Public\Pictures&#xD;&#xA;This script runs reliably when executed by itself. However, it tends to fail when running the PS1 when included as part of a control procedure.&#xD;&#xA;Sidenote: if it fails and then is run standalone, a subsequent run of the control procedure /work/ (?!).&#xD;&#xA;In light of this, this executeShellCommand is set to 'Continue on Fail'" name="ExecuteShellCommand" continueOnFail="true">
+        <Parameter xsi:type="StringParameter" name="Command" value="powershell -ExecutionPolicy Bypass -File #secureVSAdir#\Set-DesktopWallpaper.ps1 -Path &quot;#SharedPicDir#&quot; -FileName &quot;sqz-wallpaper.jpg&quot;" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\Set-DesktopWallpaper.ps1" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

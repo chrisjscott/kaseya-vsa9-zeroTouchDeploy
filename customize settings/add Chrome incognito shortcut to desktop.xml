@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="add Chrome incognito shortcut to desktop" treePres="3" id="315244495" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="%UserProfile%\Desktop\Google Chrome (incognito).lnk" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\Google Chrome (incognito).lnk" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+      <Statement description="If we're adding an incognito link then we can assume we want to discourage opening Chrome normally, so we delete the default desktop link." name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="del %Public%\Desktop\&quot;Google Chrome.lnk&quot;" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="SonicWall NetExtender (install)" treePres="3" id="736979883" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="&#xA;&#xA;">
+      <Statement description="Downloads &amp; installs NetExtender v10.2.331.&#xD;&#xA;In-app configuration is set from firewall (Manage -&gt; Connectivity -&gt; SSL VPN -&gt; Client Settings -&gt; Default Device Profile -&gt; Client Settings)." name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="NetExtender-x64-10.2.331.MSI" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement description="Download link from here: https://www.sonicwall.com/products/remote-access/vpn-clients/" name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://software.sonicwall.com/NetExtender/#fileName#" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="Install MSI" continueOnFail="false" osType="Windows">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="True" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+      </Statement>
+      <Statement description="This app is a universal install; resulting icon on user's desktop can't be deleted w/o admin credentials." name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="del %Public%\Desktop\&quot;SonicWall NetExtender.lnk&quot;" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

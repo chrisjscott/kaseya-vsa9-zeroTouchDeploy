@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="set date/time automatically" treePres="3" id="722590957" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement description="based on https://tseknet.com/blog/timezone&#xD;&#xA;this can only be set as an admin &amp; is a system-wide setting; requires a restart for all changes to take effect&#xD;&#xA;.&#xD;&#xA;enables Windows Location Services" name="SetRegistryValue64" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location\Value" />
+        <Parameter xsi:type="StringParameter" name="Value" value="Allow" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="String" />
+      </Statement>
+      <Statement description="enables &quot;Set time automatically&quot;" name="SetRegistryValue" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\Parameters\Type" />
+        <Parameter xsi:type="StringParameter" name="Value" value="NTP" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="String" />
+      </Statement>
+      <Statement description="enables &quot;Set time zone automatically&quot;" name="SetRegistryValue" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\tzautoupdate\Start" />
+        <Parameter xsi:type="StringParameter" name="Value" value="3" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="Integer" />
+      </Statement>
+      <Statement description="service must be started before time can be synced" name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="net start w32time" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement description="synchronizes system time" name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="C:\Windows\System32\w32tm.exe /resync" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

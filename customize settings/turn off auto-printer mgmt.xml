@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="turn off auto-printer mgmt" treePres="3" id="1995168350" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement description="Turn off Windows' &quot;auto-manage default printer&quot; setting so default printer can be manually set (does not require restart)&#xD;&#xA;https://www.thewindowsclub.com/let-windows-manage-default-printer" name="SetRegistryValue" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="RegistryPath" value="HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows\LegacyDefaultPrinterMode" />
+        <Parameter xsi:type="StringParameter" name="Value" value="1" />
+        <Parameter xsi:type="EnumParameter" name="DataType" value="Integer" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

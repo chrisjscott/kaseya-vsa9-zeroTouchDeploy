@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="02: Universal User Setup" treePres="3" id="1437764152" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.control procedures">
+    <Body description="">
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="Prompt" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Enter 'lab'  if this setup is for a lab system:" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="labConfig" />
+      </Statement>
+      <Statement description="." name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1974731423" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="set Google Chrome as default browser" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="672143915" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="remove MS Edge from desktop (%UserProfile%)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="88176474" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="set display scale to 100%" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="855046333" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="turn off visual effects" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1885123920" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="set desktop wallpaper" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="999399483" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="PaperCut Print Deploy (install)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1995168350" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="turn off auto-printer mgmt" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="721718011" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="set printer default to 'Adobe PDF'" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement description="23.04.24 / CScott: removing &quot;Windows 11 only&quot; constraint from this next call; relying on the constraint in the procedure itself" name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="93307277" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="remove Chat icon from Win11 taskbar" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <If description=".">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#labConfig#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="Equals" />
+          <Parameter xsi:type="StringParameter" name="Value" value="lab" />
+        </Condition>
+        <Then>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="315244495" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="add Chrome incognito shortcut to desktop" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+        </Then>
+        <Else>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="669466802" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="Egnyte Desktop (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1189610780" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="remove Slack from desktop" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" osType="10" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="362406022" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="*MS Teams (install home/SMB)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="710850231" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="SonicWall NetExtender (add profile)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+        </Else>
+      </If>
+      <Statement description="." name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1258850000" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="Audit - BitLocker Detailed Information" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="Reboot" continueOnFail="false" />
+    </Body>
+  </Procedure>
+</ScExport>

@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="01. Universal System Setup" treePres="3" id="662595104" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.control procedures">
+    <Body description="">
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="Prompt" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Enter 'lab' if this setup is for a lab system" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="labConfig" />
+      </Statement>
+      <Statement description=".&#xD;&#xA;Configuration that applies to all systems:" name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="442842595" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="Config - Enable BitLocker C Drive (AES256, TPM, Recovery Password, skip Hardware Test)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="617103578" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="Sophos A/V (install)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="821792857" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="remove MS Edge from desktop (%Public%)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="88176474" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="set display scale to 100%" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="855046333" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="turn off visual effects" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="346132403" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="Google Chrome (install)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1974731423" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="set Google Chrome as default browser" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <If description="">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#vMachine.Manufacturer#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="BeginsWith" />
+          <Parameter xsi:type="StringParameter" name="Value" value="Dell" />
+        </Condition>
+        <Then>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1678587733" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="MS Office 365 (uninstall)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+        </Then>
+      </If>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1350317122" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="Adobe Acrobat (install)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1414787028" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="copy SQZ wallpaper to public directory" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="722590957" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="set date/time automatically" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+      <If description=".&#xD;&#xA;Configuration that is either lab- or end-user specific:">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#labConfig#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="Equals" />
+          <Parameter xsi:type="StringParameter" name="Value" value="lab" />
+        </Condition>
+        <Then>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1920050920" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="SSID: SQZ-LAB (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1224919435" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="create 'LabUser01' local account" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+        </Then>
+        <Else>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="465879443" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="Google Credential Provider for Windows (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="898298126" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="MS Office 365 (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1106583151" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="Slack (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1111180859" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="Zoom (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1752707838" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="Egnyte WebEdit (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="736979883" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="SonicWall NetExtender (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+          <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+            <Parameter xsi:type="StringParameter" name="ScriptID" value="1655897806" />
+            <Parameter xsi:type="StringParameter" name="ScriptName" value="SSID: SQZ (install)" />
+            <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+            <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+          </Statement>
+        </Else>
+      </If>
+      <Statement name="Reboot" continueOnFail="false" />
+    </Body>
+  </Procedure>
+</ScExport>

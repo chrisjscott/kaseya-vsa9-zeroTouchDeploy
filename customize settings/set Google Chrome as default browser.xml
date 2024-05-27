@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="set Google Chrome as default browser" treePres="3" id="1974731423" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement description="https://kolbi.cz/blog/2017/11/10/setdefaultbrowser-set-the-default-browser-per-user-on-windows-10-and-server-2016-build-1607/" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="SetDefaultBrowser" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://kolbi.cz/#fileName#.zip" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#.zip" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="Unzip file" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\#fileName#.zip" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="#secureVSAdir#" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="False" />
+      </Statement>
+      <Statement description="command must be executed as user; nothing happens when run as system" name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#\#fileName#.exe" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="chrome" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#.zip" />
+      </Statement>
+      <Statement name="Delete Directory" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="true" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

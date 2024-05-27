@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="*Dell Command | Update (install)" treePres="3" id="963044169" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="Installs v4.8 from https://www.dell.com/support/home/en-us/drivers/driversdetails?driverid=6gmr6&amp;oscode=w2021&amp;productcode=latitude-14-7420-2-in-1-laptop" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Dell-Command-Update-Application_714J9_WIN_4.8.0_A00.EXE" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement description="For some reason, getURL is unable to properly DL the executable; forced to save it on VSA :-(&#xD;&#xA;https://www.dell.com/support/home/en-us/drivers/driversdetails?driverid=714j9&amp;oscode=w2021&amp;productcode=latitude-14-7420-2-in-1-laptop" name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\Dell\Dell-Command-Update-Application_714J9_WIN_4.8.0_A00.EXE" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+      <Statement description="The installer fails if &quot;Dell Command | Update for Windows 10&quot; is installed, so we have to first remove that.&#xD;&#xA;GUID acquired by running 'wmic product get' from command line and capturing the 'IdentifyingNumber' value." name="Uninstall by MSI GUID" continueOnFail="true">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="2053E54C-B7EF-43DA-A301-866DD74307BA" />
+        <Parameter xsi:type="EnumParameter" name="Parameter2" value="/quiet /norestart" />
+      </Statement>
+      <Statement name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="/s" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

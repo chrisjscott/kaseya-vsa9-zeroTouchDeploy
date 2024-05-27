@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="*MS Teams (uninstall)" treePres="3" id="1064047631" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="Also removes the Chat icon from the taskbar.">
+      <Statement description=" script found here: https://www.inthecloud247.com/remove-the-built-in-teams-client-and-chat-icon-from-windows-11/&#xD;&#xA;uninstall must be done on a per-user basis (running as admin doesn't remove it for other users)&#xD;&#xA;SEEMS TO ONLY WORK AFTER THE SYSTEM IS RESTARTED AND RUN AGAIN?!" name="Execute Powershell Command (64-bit, Run As User)" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="Get-AppxPackage -Name MicrosoftTeams | Remove-AppxPackage" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="False" />
+      </Statement>
+      <Statement description="hides the &quot;Chat&quot; icon in Windows 11 (which is just another way of accessing Teams)" name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="REG ADD &quot;HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; /f /v TaskbarMn /t REG_DWORD /d 0" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

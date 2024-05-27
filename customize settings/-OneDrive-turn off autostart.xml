@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="*OneDrive-turn off autostart" treePres="3" id="1576780464" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement name="DeleteRegistryValue64" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\OneDrive" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

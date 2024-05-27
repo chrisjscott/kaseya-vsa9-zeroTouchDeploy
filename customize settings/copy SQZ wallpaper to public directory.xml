@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="copy SQZ wallpaper to public directory" treePres="3" id="1414787028" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="Uploads the default SQZ desktop wallpaper and sets it as the current wallpaper.">
+      <Statement name="WriteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="%Public%\Pictures\sqz-wallpaper.jpg" />
+        <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\Wallpaper\wallpaper.jpg" />
+        <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

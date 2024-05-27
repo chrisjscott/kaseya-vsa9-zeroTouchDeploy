@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="Egnyte Desktop (install)" treePres="3" id="669466802" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="Downloads &amp; installs Egnyte Desktop v3.14&#xD;&#xA;Maps &quot;SQZ-Egnyte&quot; to S:\ drive and requires SSO authentication." name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="EgnyteDesktopApp_3.14.8_126.msi" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement description="Installer download link found here: https://helpdesk.egnyte.com/hc/en-us/articles/205237150" name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://egnyte-cdn.egnyte.com/egnytedrive/win/en-us/3.14.8/EgnyteDesktopApp_3.14.8_126.msi" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement description="Adding firewall rules before installation to avoid the post-installation prompt to add rules to Windows Defender Firewall&#xD;&#xA;If we don't do this then that prompt breaks any control procedures with this procedure included in it." name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="netsh advfirewall firewall add rule name=&quot;Egnyte Desktop App&quot; dir=in protocol=TCP action=allow profile=Public program=&quot;C:\Program Files (X86)\Egnyte Connect\EgnyteDrive.exe&quot; enable=yes" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="netsh advfirewall firewall add rule name=&quot;Egnyte Desktop App&quot; dir=in protocol=UDP action=allow profile=Public program=&quot;C:\Program Files (X86)\Egnyte Connect\EgnyteDrive.exe&quot; enable=yes" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement description="not using installMSI to install because that procedure provides no way to pass additional parameters to the MSI&#xD;&#xA;Installer flags documented here:  https://helpdesk.egnyte.com/hc/en-us/articles/216688268" name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="%windir%\system32\msiexec.exe" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="/i #secureVSAdir#\#fileName# ED_SILENT=1 ED_DRIVE_DOMAIN=sqz ED_DRIVE_LABEL=SQZ-Egnyte ED_DRIVE_SSO=1 ED_DRIVE_LETTER=E /passive" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

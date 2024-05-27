@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="SonicWall NetExtender (add profile)" treePres="3" id="710850231" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="Adds the SQZ-specific profile template.">
+      <Statement description="Profile creation must be done as user (profile isn't created if done as system)&#xD;&#xA;PS script to truncate username: %SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe $loginName = $env:UserName.SubString(0, $env:USerName.IndexOf('m'))" name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="&quot;%PROGRAMFILES(X86)%\SonicWall\SSL-VPN\NetExtender\NECLI.exe&quot; addprofile -s vpn.sqzbiotech.com:4433 -u &quot;Enter Email Address&quot; -d SQZ" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

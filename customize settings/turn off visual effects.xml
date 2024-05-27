@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="turn off visual effects" treePres="3" id="855046333" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.customize settings">
+    <Body description="">
+      <Statement description="https://superuser.com/q/1610078&#xD;&#xA;This is pretty hack-y (it relies on step-by-step keystrokes) but it works...&#xD;&#xA;To-date, I've been unable to find a Powershell script to do this that actually works..." name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="visualEffectsOff.bat" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <If description="">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#vMachine.Manufacturer#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="BeginsWith" />
+          <Parameter xsi:type="StringParameter" name="Value" value="Dell" />
+        </Condition>
+        <Then>
+          <Statement name="WriteFile" continueOnFail="false" osType="10">
+            <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+            <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\turn off visual effects\visualEffectsOff-Dell10.bat" />
+            <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+          </Statement>
+          <Statement name="WriteFile" continueOnFail="false" osType="11">
+            <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+            <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\turn off visual effects\visualEffectsOff-Dell11.bat" />
+            <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+          </Statement>
+        </Then>
+      </If>
+      <If description="">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#vMachine.Manufacturer#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="BeginsWith" />
+          <Parameter xsi:type="StringParameter" name="Value" value="Lenovo" />
+        </Condition>
+        <Then>
+          <Statement description="We're assuming that all Lenovos have been upgraded to Win11" name="WriteFile" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+            <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\turn off visual effects\visualEffectsOff-Lenovo11.bat" />
+            <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+          </Statement>
+        </Then>
+      </If>
+      <Statement description=".bat file must be run as user" name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

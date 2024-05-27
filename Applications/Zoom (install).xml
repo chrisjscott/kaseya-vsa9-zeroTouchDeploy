@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="Zoom (install)" treePres="3" id="1111180859" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="Downloads &amp; installs Zoom 5.14.0.13888 (released on 3/20/23).">
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="ZoomInstallerFull.msi" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://zoom.us/client/5.14.0.13888/ZoomInstallerFull.msi?archType=x64" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#secureVSAdir#\#fileName#" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <If description="">
+        <Condition name="ApplicationRunning">
+          <Parameter xsi:type="StringParameter" name="ApplicationName" value="Zoom.exe" />
+        </Condition>
+        <Then>
+          <Statement name="CloseApplication" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="ApplicationName" value="Zoom.exe" />
+          </Statement>
+        </Then>
+      </If>
+      <Statement description="not using installMSI to install because that procedure provides no way to pass additional parameters to the MSI&#xD;&#xA;Installer flags documented here: https://support.zoom.us/hc/en-us/articles/201362163-Mass-Installation-and-Configuration-for-Windows#h_01FW2JP5MFYQCG84Q22DHTY07S&#xD;&#xA;Note that the ZoomAutoUpdate tag name &amp; syntax has changed from what's described in the above article: new details here: https://support.zoom.us/hc/en-us/articles/10365151862285" name="ExecuteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="%windir%\system32\msiexec.exe" />
+        <Parameter xsi:type="StringParameter" name="Arguments" value="/i #secureVSAdir#\#fileName# /quiet /norestart ZConfig=&quot;AU2_EnableAutoUpdate=1;DisableLoginWithEmail=1;NoFacebook=1;EnableAppleLogin=0;EnforceAppSignInToJoin=1&quot;" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\#fileName#" />
+      </Statement>
+      <Statement description="This app is a universal install; resulting icon on user's desktop can't be deleted w/o admin credentials." name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="del %Public%\Desktop\Zoom.lnk" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

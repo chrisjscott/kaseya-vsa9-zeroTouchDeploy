@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="Sophos A/V (uninstall)" treePres="3" id="1294812604" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com.Applications">
+    <Body description="">
+      <Statement description="If we don't have the tamper protection password then recover it according to these instructions:&#xD;&#xA;https://support.sophos.com/support/s/article/KB-000036125?language=en_US#Recover_registry" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="Prompt" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Enter client's tamper protection password:" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="tamperPW" />
+      </Statement>
+      <Statement description="." name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="ConstantValue" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="SophosZap.exe" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="fileName" />
+      </Statement>
+      <Statement description="Reference for Sophos Zap tool: https://support.sophos.com/support/s/article/KB-000038989?language=en_US" name="GetURL" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="URL" value="https://download.sophos.com/tools/SophosZap.exe" />
+        <Parameter xsi:type="StringParameter" name="ResponseFileName" value="#fileName" />
+        <Parameter xsi:type="BooleanParameter" name="WaitComplete" value="True" />
+      </Statement>
+      <Statement name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="C:\Program Files\Sophos\Endpoint Defense\SEDcli.exe -OverrideTPoff #tamperPW" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="#secureVSAdir\#fileName --confirm" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement name="Reboot with Warning message" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="Message from SQZ Tech Team:\n\nThis computer will reboot in 3 minutes.  Please save any open files now." />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="3" />
+      </Statement>
+      <Statement name="PauseScript" continueOnFail="false">
+        <Parameter xsi:type="IntegerParameter" name="Seconds" value="300" />
+      </Statement>
+      <Statement name="ExecuteShellCommand" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Command" value="#secureVSAdir\#fileName --confirm" />
+        <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+        <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+      </Statement>
+      <Statement name="Reboot with Warning message" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="Message from SQZ Tech Team:\n\nThis computer will reboot in 3 minutes.  Please save any open files now." />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="3" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>
