@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="initiate Agent check-in" treePres="3" id="1935367444" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com._miscellaneous">
+    <Body description="">
+      <Statement description="This is a test to see if this simple command is enough to get the VSA to push necessary DLL files to c:\KWorking\System" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+      </Statement>
+      <Statement name="Write text to file" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="This file can be deleted." />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="#secureVSAdir#\touch.txt" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="False" />
+      </Statement>
+      <Statement name="PauseScript" continueOnFail="false">
+        <Parameter xsi:type="IntegerParameter" name="Seconds" value="15" />
+      </Statement>
+      <Statement name="DeleteFile" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\touch.txt" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="notification config (template)" treePres="3" id="537526046" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com._miscellaneous.notification generator (template)">
+    <Body description="Append these three lines to the end of a procedure requiring notification.&#xA;&#xA;Customize the getVariableUniversalCreate with your message and select either &quot;send notification (display now)&quot; or 'Send notification (flash icon)&quot; as appropriate.&#xA;&#xA;Resulting message will say &quot;Message from the SQZ Tech Team: &lt;your message&gt; on &lt;date&gt; @ &lt;time&gt;.&quot;">
+      <Statement description="setting #global:universal1# for use in &quot;send notification&quot; procedure" name="Get Variable - Universal - Create" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="&lt;insert message text here&gt;" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="" />
+      </Statement>
+      <Statement name="ExecuteScript" continueOnFail="false" rootNodeType="1">
+        <Parameter xsi:type="StringParameter" name="ScriptID" value="1715461613" />
+        <Parameter xsi:type="StringParameter" name="ScriptName" value="send notification (display now)" />
+        <Parameter xsi:type="StringParameter" name="TimeDelay" value="" />
+        <Parameter xsi:type="EnumParameter" name="TimeUnit" value="Immediate" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

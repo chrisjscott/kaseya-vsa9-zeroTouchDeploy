@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="create 'LabUser01' local account" treePres="3" id="1224919435" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com._miscellaneous">
+    <Body description="">
+      <Statement description="password = BIO.password" name="Create Local User" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="LabUser01" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="CoveredPwd2::918cc018c7e0c89014261ccc" />
+        <Parameter xsi:type="EnumParameter" name="Parameter3" value="Users" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

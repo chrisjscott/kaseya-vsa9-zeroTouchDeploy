@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="send notification (flash icon)" treePres="3" id="934446623" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com._miscellaneous.notification generator (template)">
+    <Body description="Sends a date/timestamped message to end user (via flashing Kaseya icon).&#xA;&#xA;Message text is defined in procedure that calls this one (so this can be universally repurposed).">
+      <Statement name="Execute Shell Command - Get Results to Variable" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="echo %Date% @ %Time%" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="False" />
+        <Parameter xsi:type="StringParameter" name="Parameter3" value="User" />
+      </Statement>
+      <Statement name="Get Variable - Universal - Read" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Parameter1" value="" />
+        <Parameter xsi:type="StringParameter" name="Parameter2" value="False" />
+      </Statement>
+      <Statement name="SendMessage" continueOnFail="false">
+        <Parameter xsi:type="StringParameter" name="Message" value="Message from the SQZ Tech Team:\n\n#global:universal1# on #global:cmdresults#" />
+        <Parameter xsi:type="BooleanParameter" name="Immediate" value="False" />
+      </Statement>
+    </Body>
+  </Procedure>
+</ScExport>

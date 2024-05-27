@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="Reset Windows PC ***DANGER***" treePres="3" id="77164648" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com._miscellaneous">
+    <Body description="For the love of God be careful with this - this initiates a system reset without warning.&#xA;&#xA;Double-check the system you've selected.&#xA;Double-check that it's the ONLY system selected.">
+      <Statement description="PS1 code found here: https://techcommunity.microsoft.com/t5/windows-deployment/factory-reset-windows-10-without-user-intervention/m-p/1349038/highlight/true#M559&#xD;&#xA;This PS1 is implementing the &quot;doWipeProtectedMethod&quot; method&#xD;&#xA;If I could, I'd specify the system in the prompt using: #vMachine.Manufacturer# #vMachine.ProductName# (s/n #vMachine.SysSerialNumber#)&#xD;&#xA;Turns out that the checkVar procedure isn't case-sensitive so forcing caps is pointless but...     :-/" name="GetVariable" continueOnFail="false">
+        <Parameter xsi:type="EnumParameter" name="VariableType" value="Prompt" />
+        <Parameter xsi:type="StringParameter" name="SourceContent" value="Enter 'YES' (in caps) to confirm a full reset of this system:" />
+        <Parameter xsi:type="StringParameter" name="VariableName" value="confirmDeletion" />
+      </Statement>
+      <If description="">
+        <Condition name="CheckVariable">
+          <Parameter xsi:type="StringParameter" name="VariableName" value="#confirmDeletion#" />
+          <Parameter xsi:type="EnumParameter" name="Condition" value="Equals" />
+          <Parameter xsi:type="StringParameter" name="Value" value="YES" />
+        </Condition>
+        <Then>
+          <Statement name="GetVariable" continueOnFail="false">
+            <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+            <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+            <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+          </Statement>
+          <Statement name="WriteFile" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="Path" value="#secureVSAdir#\resetWindowsPC.ps1" />
+            <Parameter xsi:type="StringParameter" name="ManagedFile" value="VSASharedFiles\system procedures\resetWindowsPC.ps1" />
+            <Parameter xsi:type="BooleanParameter" name="DeleteAfter" value="False" />
+          </Statement>
+          <Statement name="Execute Powershell" continueOnFail="false">
+            <Parameter xsi:type="StringParameter" name="Parameter1" value="#secureVSAdir#\resetWindowsPC.ps1" />
+            <Parameter xsi:type="StringParameter" name="Parameter2" value="" />
+            <Parameter xsi:type="StringParameter" name="Parameter3" value="False" />
+          </Statement>
+        </Then>
+      </If>
+    </Body>
+  </Procedure>
+</ScExport>

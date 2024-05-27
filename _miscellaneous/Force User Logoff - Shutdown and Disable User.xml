@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kaseya.com/vsa/2008/12/Scripting">
+  <Procedure name="Force User Logoff / Shutdown and Disable User" treePres="3" id="1181357701" treeFullPath="myProcedures - christopher.scott@sqzbiotech.com._miscellaneous">
+    <Body description="Logs off the currently logged on user.">
+      <If description="Part of a package found here: https://www.community.connectit.com/automation-exchange/discussion/comment/131834&#xD;&#xA;23.07.31: UNTESTED on either domain joined systems or GCPW&#xD;&#xA;The procedure sets the currently logged in user's account to 'inactive' and then shuts down the system.">
+        <Condition name="UserIsLoggedIn">
+          <Parameter xsi:type="StringParameter" name="UserName" value="" />
+        </Condition>
+        <Then>
+          <Statement name="GetVariable" continueOnFail="false">
+            <Parameter xsi:type="EnumParameter" name="VariableType" value="AgentTempSystemDirectory" />
+            <Parameter xsi:type="StringParameter" name="SourceContent" value="" />
+            <Parameter xsi:type="StringParameter" name="VariableName" value="secureVSAdir" />
+          </Statement>
+          <Statement name="ExecuteShellCommand" continueOnFail="false" osType="Windows">
+            <Parameter xsi:type="StringParameter" name="Command" value="echo %USERNAME% &gt;&gt; #secureVSAdir#\currentUser.txt" />
+            <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+            <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+          </Statement>
+          <Statement name="GetVariable" continueOnFail="false" osType="Windows">
+            <Parameter xsi:type="EnumParameter" name="VariableType" value="FileContent" />
+            <Parameter xsi:type="StringParameter" name="SourceContent" value="#secureVSAdir#\currentUser.txt" />
+            <Parameter xsi:type="StringParameter" name="VariableName" value="currentUser" />
+          </Statement>
+          <Statement name="ExecuteShellCommand" continueOnFail="false" osType="Windows">
+            <Parameter xsi:type="StringParameter" name="Command" value="net user #currentUser# /active:no" />
+            <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="System" />
+            <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="True" />
+          </Statement>
+          <Statement name="ExecuteShellCommand" continueOnFail="false" osType="Windows">
+            <Parameter xsi:type="StringParameter" name="Command" value="shutdown.exe /p /f" />
+            <Parameter xsi:type="EnumParameter" name="ExecuteAccount" value="User" />
+            <Parameter xsi:type="BooleanParameter" name="Is64Bit" value="False" />
+          </Statement>
+        </Then>
+      </If>
+    </Body>
+  </Procedure>
+</ScExport>
